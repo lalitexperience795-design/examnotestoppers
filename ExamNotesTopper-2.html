@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'none'; frame-src 'none'; object-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<title>ExamNotesTopper – Exam Notes PDF for All India</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#fff7e0;--ink:#16122b;--card:#ffffff;--pri:#6d28ff;--hot:#ff4d8d;--sun:#ffd23f;--ok:#12a150;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14102a;--ink:#fff4d6;--card:#201a3f;--pri:#9b7bff;--hot:#ff6fa5}}
+:root[data-theme="dark"]{--bg:#14102a;--ink:#fff4d6;--card:#201a3f;--pri:#9b7bff;--hot:#ff6fa5}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.45}
+main{max-width:620px;margin:0 auto;padding:16px 14px 80px}
+h1{font-size:clamp(1.9rem,9.5vw,3.4rem);line-height:.95;margin:.3em 0 .2em;font-weight:800;letter-spacing:-.03em}
+h1 span{background:var(--sun);color:#16122b;padding:0 .12em;display:inline-block;transform:rotate(-2deg);border:3px solid var(--ink)}
+.sub{font-size:1.05rem;margin:0 0 18px}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--ink);padding:16px;margin-bottom:22px}
+.card h2{margin:0 0 12px;font-size:1.25rem}
+.chip{font:inherit;font-weight:700;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:12px;padding:8px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--pri);color:#fff;box-shadow:3px 3px 0 var(--ink)}
+label{display:block;font-weight:700;font-size:.9rem;margin:10px 0 4px}
+input,select{width:100%;font:inherit;padding:11px 12px;border:2px solid var(--ink);border-radius:10px;background:var(--bg);color:var(--ink)}
+input[type=file]{padding:9px 10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:440px){.row{grid-template-columns:1fr}}
+.note{display:flex;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;background:var(--bg)}
+.note input{width:22px;height:22px;accent-color:var(--pri);flex:none}
+.note span{flex:1;font-weight:700}
+.note em{font-style:normal;font-weight:800;background:var(--sun);color:#16122b;padding:2px 8px;border-radius:8px;border:2px solid var(--ink)}
+.note.full{border-width:3px;border-color:var(--pri)}
+.btn{display:block;width:100%;font:inherit;font-weight:800;font-size:1.05rem;text-align:center;text-decoration:none;border:3px solid var(--ink);border-radius:14px;padding:13px;margin-top:12px;cursor:pointer;background:var(--hot);color:#fff;box-shadow:4px 4px 0 var(--ink)}
+.btn.alt{background:var(--sun);color:#16122b}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.total{display:flex;justify-content:space-between;font-size:1.3rem;font-weight:800;margin-top:12px}
+.msg{font-size:.88rem;margin:6px 0 0}.msg.ok{color:var(--ok)}.msg.bad{color:var(--hot)}
+#qr{display:flex;justify-content:center;margin:12px auto;background:#fff;padding:12px;border-radius:12px;border:2px solid var(--ink);width:fit-content}
+#qr img{max-width:100%;height:auto;display:block}
+.hide{display:none}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.warn{background:var(--sun);color:#16122b;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;font-size:.88rem;font-weight:700;margin-bottom:10px}
+.upiid{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.upiid b{word-break:break-all}
+.copy{font:inherit;font-weight:700;font-size:.85rem;border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:10px;padding:4px 10px;cursor:pointer}
+#shotPrev{display:block;max-width:100%;max-height:220px;margin:10px auto 0;border:2px solid var(--ink);border-radius:10px}
+.agree{display:flex;gap:10px;align-items:flex-start;font-weight:600;font-size:.9rem;margin:0}
+.agree input{width:22px;height:22px;accent-color:var(--pri);flex:none;margin-top:2px}
+.done{text-align:left}
+.done h2{text-align:center}
+.thanks p{margin:10px 0}
+.policy{font-size:.88rem}
+.policy h2{font-size:1.05rem;margin-bottom:6px}
+.policy ul{margin:0;padding-left:18px}
+.policy li{margin:5px 0}
+.payinfo{background:var(--bg);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;margin:12px 0}.payinfo p{margin:6px 0}.payinfo .amt{font-size:1.25rem;font-weight:800}.payinfo .amt b{color:var(--hot)}
+.comm{text-align:center}.comm p{margin:0 0 4px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+footer{text-align:center;font-size:.8rem;opacity:.8}
+@media (prefers-reduced-motion:no-preference){h1 span{animation:wob 3s ease-in-out infinite alternate}@keyframes wob{to{transform:rotate(2deg)}}}
+</style>
+</head>
+<body>
+<main>
+<h1>ExamNotes<span>Topper</span></h1>
+<p class="sub">Choose your class or exam, pick notes, pay, and get the PDF on your WhatsApp.<br>अपनी क्लास या परीक्षा चुनें, नोट्स चुनें, पेमेंट करें और PDF अपने WhatsApp पर पाएं।</p>
+
+<section class="card" id="s0">
+<h2>1. What do you need? / आपको क्या चाहिए?</h2>
+<label for="state">Which state are you from? / आप किस राज्य से हैं?</label>
+<select id="state"></select>
+<label for="level">Class or Exam / क्लास या परीक्षा</label>
+<select id="level"><option value="">Select class or exam / क्लास या परीक्षा चुनें</option></select>
+<div id="extra"></div>
+<div id="semBox" class="hide"><label for="sem">Semester / सेमेस्टर</label><select id="sem"></select></div>
+<label for="lang2">Notes language (English is always included) / नोट्स की भाषा (English हमेशा साथ में रहेगी)</label>
+<select id="lang2"></select>
+</section>
+
+<section class="card hide" id="s1">
+<h2>2. Choose your notes / अपने नोट्स चुनें</h2>
+<div id="notes"></div>
+<div class="total"><span>Total</span><span id="total">₹0</span></div>
+</section>
+
+<section class="card hide" id="s2">
+<h2>3. Your details / आपकी जानकारी</h2>
+<label for="name">Your name / आपका नाम</label>
+<input id="name" autocomplete="name" maxlength="50" placeholder="Full name / पूरा नाम">
+<label for="phone">Your WhatsApp number (PDF will be sent here) / आपका WhatsApp नंबर (PDF इसी नंबर पर आएगा)</label>
+<input id="phone" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="10-digit number / 10 अंकों का नंबर">
+<div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" tabindex="-1" autocomplete="off"></div>
+</section>
+
+<section class="card hide" id="s3">
+<h2>4. Coupon &amp; Payment / कूपन और पेमेंट</h2>
+
+<label for="coupon">Have a coupon? Apply it BEFORE paying. / कूपन है? पेमेंट से पहले यहाँ लगाएँ।</label>
+<div class="row"><input id="coupon" placeholder="Enter code / कोड डालें" autocapitalize="characters" maxlength="20"><button type="button" class="btn alt" id="apply" style="margin:0">Apply</button></div>
+<p class="msg" id="cmsg"></p>
+
+<div class="payinfo" id="payInfo">
+<p><b>Thank you for choosing ExamNotesTopper!</b><br>ExamNotesTopper चुनने के लिए धन्यवाद!</p>
+<p>You are buying / आप खरीद रहे हैं:<br><b id="payFor"></b></p>
+<p class="amt">Amount to pay / भुगतान की रकम: <b id="payAmt"></b></p>
+<p class="msg" id="payCoupon"></p>
+<p class="msg">The QR and UPI button below are set to this exact amount automatically. Please do not change it.<br>नीचे का QR और UPI बटन इसी रकम पर अपने-आप सेट हैं। कृपया रकम न बदलें।</p>
+</div>
+
+<div class="warn">Please make only real payments and upload only the real payment screenshot. Fake payments can lead to legal action.<br>कृपया सिर्फ असली पेमेंट करें और असली पेमेंट स्क्रीनशॉट ही अपलोड करें। फर्जी पेमेंट पर कानूनी कार्रवाई हो सकती है।</div>
+<div class="tabs" id="paytabs">
+<button type="button" class="chip" data-m="qr" aria-pressed="true">Pay by QR / QR से पेमेंट</button>
+<button type="button" class="chip" data-m="upi" aria-pressed="false">Pay by UPI / UPI से पेमेंट</button>
+</div>
+
+<div id="payQR">
+<div id="qr"></div>
+<p class="msg" style="text-align:center">Scan with any UPI app. The amount is filled in for you.<br>किसी भी UPI ऐप से QR स्कैन करें। रकम अपने-आप भरी होगी।</p>
+</div>
+
+<div id="payUPI" class="hide">
+<div class="upiid"><span>UPI ID:</span><b id="upiShow"></b><button type="button" class="copy" id="copyUpi">Copy</button></div>
+<a class="btn alt" id="upiBtn" href="#">Pay with UPI app / UPI ऐप से पेमेंट करें</a>
+<p class="msg" style="text-align:center">If the button does not open, copy the UPI ID and pay the exact amount shown above.<br>बटन न खुले तो UPI ID कॉपी करके ऊपर दिखी पूरी रकम का पेमेंट करें।</p>
+</div>
+
+<label for="utr">After paying, enter UTR / Transaction ID (12 digits) / पेमेंट के बाद UTR / Transaction ID डालें (12 अंक)</label>
+<input id="utr" inputmode="numeric" maxlength="12" placeholder="e.g. 412345678901 / जैसे 412345678901">
+
+<label for="shot">Upload payment screenshot / पेमेंट का स्क्रीनशॉट अपलोड करें</label>
+<input id="shot" type="file" accept="image/*">
+<img id="shotPrev" class="hide" alt="Payment screenshot preview">
+<p class="msg" id="shotMsg"></p>
+</section>
+
+<section class="card hide" id="s5">
+<label class="agree" for="agree"><input id="agree" type="checkbox"><span>I have read the refund policy below and I agree.<br>मैंने नीचे लिखी रिफंड नीति पढ़ ली है और मैं उससे सहमत हूँ।</span></label>
+<button type="button" class="btn" id="send">Buy Now / नोट्स PDF खरीदें</button>
+<p class="msg" id="smsg"></p>
+</section>
+
+<section class="card hide done" id="s4">
+<h2>Thank you! / धन्यवाद! 🙏</h2>
+<div class="payinfo"><p><b>Thank you for your purchase! / खरीदारी के लिए धन्यवाद!</b></p><p id="sumTxt"></p></div>
+<div class="thanks">
+<p><b>Your purchase is received.</b> Your PDF or its link will be sent to your WhatsApp number <b class="waNum"></b> within <b>5 hours</b>.</p>
+<p><b>आपने परचेस कर लिया है।</b> आपके WhatsApp नंबर <b class="waNum"></b> पर <b>5 घंटे के अंदर</b> PDF या उसका लिंक भेज दिया जाएगा।</p>
+<p>Please do not do anything that may create a problem for our technical team. Do not make fake payments. Fake payment is a legal offence and may lead to legal action. Send only the real payment slip.</p>
+<p>कृपया ऐसा कोई कार्य न करें जिससे हमारी टेक्निकल टीम को गड़बड़ी महसूस हो। फर्जी पेमेंट न करें, फर्जी पेमेंट करना कानूनी अपराध है और इस पर कानूनी कार्रवाई हो सकती है। सिर्फ असली पेमेंट स्लिप भेजें।</p>
+<p class="msg">Order ID: <b id="oidShow"></b> (keep it safe for support / सपोर्ट के लिए सुरक्षित रखें)</p>
+</div>
+<button type="button" class="btn alt" id="shareShot">Send screenshot on WhatsApp / स्क्रीनशॉट WhatsApp पर भेजें</button>
+<p class="msg">When WhatsApp opens, attach your payment screenshot in the same chat and send.<br>WhatsApp खुलने पर अपना पेमेंट स्क्रीनशॉट उसी चैट में अटैच करके भेजें।</p>
+<button type="button" class="btn" id="share">Invite a friend, both save / दोस्त को बुलाएं, दोनों बचत करें</button>
+</section>
+
+<section class="card comm" id="commBox">
+<p><b>Please join our WhatsApp Community for big updates!</b><br>बड़े अपडेट के लिए हमारी WhatsApp कम्युनिटी से ज़रूर जुड़ें।</p>
+<a class="btn alt hide" id="commBtn" href="#" target="_blank" rel="noopener noreferrer">Join WhatsApp Community / कम्युनिटी से जुड़ें</a>
+</section>
+
+<section class="card policy" id="policy">
+<h2>Refund policy (please read) / रिफंड नीति (कृपया ज़रूर पढ़ें)</h2>
+<ul>
+<li>These are digital notes (PDF), so they are <b>non-refundable</b>.<br>ये डिजिटल नोट्स (PDF) हैं, इसलिए <b>नॉन-रिफंडेबल</b> हैं।</li>
+<li>If you do not want the notes later, there is no refund. Please buy responsibly.<br>अगर आप बाद में नोट्स नहीं लेना चाहते, तो पैसे वापस करने की कोई पॉलिसी नहीं है। कृपया अपनी ज़िम्मेदारी से खरीदें।</li>
+<li>If you do not receive the notes after payment, your money will be refunded <b>within 48 hours</b>.<br>पेमेंट करने के बाद अगर आपको नोट्स नहीं मिलते हैं, तो आपका पैसा <b>48 घंटे के अंदर</b> वापस कर दिया जाएगा।</li>
+<li>Once the notes are delivered, no complaint about any shortcoming will be accepted.<br>नोट्स भेज दिए जाने के बाद किसी भी प्रकार की कमी की शिकायत मान्य नहीं होगी।</li>
+</ul>
+</section>
+
+<footer>ExamNotesTopper · Digital notes (PDF) · No refund after delivery / डिलीवरी के बाद रिफंड नहीं</footer>
+</main>
+
+<script>
+/* ====== यहाँ अपनी जानकारी बदलें ====== */
+const CONFIG={
+  brand:"ExamNotesTopper",
+  upi:"72832s@axl",            // आपकी UPI ID
+  whatsapp:"916209356067",     // आपका WhatsApp नंबर 91 के साथ, बिना + और स्पेस के
+  community:"",                // आपकी WhatsApp Community का लिंक (https://chat.whatsapp.com/...). खाली हो तो जुड़ने का बटन नहीं दिखेगा
+  inviteCode:"FRIEND10"
+};
+/* कूपन: "कोड":[छूट %, आखिरी तारीख YYYY-MM-DD (खाली = कभी खत्म नहीं)] */
+const COUPONS={DURGA70:[70,"2026-10-21"],FREE90:[90,"2026-10-21"],FRIEND10:[10,""],FRIEND5:[5,""],TOPPER20:[20,""]};
+function couponOk(c){const v=Object.prototype.hasOwnProperty.call(COUPONS,c)?COUPONS[c]:null;if(!v)return 0;if(v[1]&&new Date()>new Date(v[1]+"T23:59:59+05:30"))return -1;return v[0]}
+
+/* नोट्स और दाम (₹). सिर्फ संख्या बदलें */
+const CAT={
+ C10:[["Full Class 10 Notes (All Subjects) / सारे सब्जेक्ट",249],["Maths Notes / गणित नोट्स",69],["Science Notes / विज्ञान नोट्स",69],["Social Science Notes / सामाजिक विज्ञान नोट्स",69],["Hindi Notes / हिंदी नोट्स",49],["English Notes / अंग्रेज़ी नोट्स",49],["Objective Questions (All Subjects) / वस्तुनिष्ठ प्रश्न (सारे सब्जेक्ट)",129],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",99]],
+ C12_Science:[["Full Class 12 Science Notes (All Subjects) / सारे सब्जेक्ट",299],["Physics Notes / भौतिकी नोट्स",89],["Chemistry Notes / रसायन नोट्स",89],["Maths Notes / गणित नोट्स",89],["Biology Notes / जीव विज्ञान नोट्स",89],["Hindi Notes / हिंदी नोट्स",59],["English Notes / अंग्रेज़ी नोट्स",59],["Objective Questions (All Subjects) / वस्तुनिष्ठ प्रश्न (सारे सब्जेक्ट)",149],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",119]],
+ C12_Commerce:[["Full Class 12 Commerce Notes (All Subjects) / सारे सब्जेक्ट",299],["Accountancy Notes / लेखाशास्त्र नोट्स",89],["Business Studies Notes / व्यवसाय अध्ययन नोट्स",89],["Economics Notes / अर्थशास्त्र नोट्स",89],["Maths Notes / गणित नोट्स",89],["Hindi Notes / हिंदी नोट्स",59],["English Notes / अंग्रेज़ी नोट्स",59],["Objective Questions (All Subjects) / वस्तुनिष्ठ प्रश्न (सारे सब्जेक्ट)",149],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",119]],
+ C12_Arts:[["Full Class 12 Arts Notes (All Subjects) / सारे सब्जेक्ट",299],["History Notes / इतिहास नोट्स",79],["Political Science Notes / राजनीति विज्ञान नोट्स",79],["Geography Notes / भूगोल नोट्स",79],["Economics Notes / अर्थशास्त्र नोट्स",79],["Hindi Notes / हिंदी नोट्स",59],["English Notes / अंग्रेज़ी नोट्स",59],["Objective Questions (All Subjects) / वस्तुनिष्ठ प्रश्न (सारे सब्जेक्ट)",149],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",119]],
+ /* सेमेस्टर: दाम की लिस्ट = [Sem1, Sem2, Sem3, ...]. हर सेमेस्टर में 50 बढ़ता है */
+ SEM:[["Semester Notes (All Subjects) / सारे सब्जेक्ट",[249,299,349,399,449,499]],["Objective Questions / वस्तुनिष्ठ प्रश्न",129],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",129]],
+ ENT:[["Full Notes / पूरे नोट्स",99],["Objective Questions / वस्तुनिष्ठ प्रश्न",79],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",79]],
+ JE:[["Full Notes (All Subjects) / सारे सब्जेक्ट",129],["Objective Questions / वस्तुनिष्ठ प्रश्न",99],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",99]],
+ ITIJOB:[["Full Notes (All Subjects) / सारे सब्जेक्ट",99],["Objective Questions / वस्तुनिष्ठ प्रश्न",79],["PYQ (Previous Year Papers) / पिछले साल के प्रश्न पत्र",79]],
+ SPL:[["History Notes / इतिहास नोट्स",59],["GK / GS Notes / सामान्य ज्ञान नोट्स",59],["Current Affairs Notes / करंट अफेयर्स नोट्स",59],["Objective Questions (GK / GS) / वस्तुनिष्ठ प्रश्न",79],["PYQ (GK / GS) / पिछले साल के प्रश्न",79]]
+};
+
+/* कौन-सी क्लास/परीक्षा दिखेगी. k = ऊपर की CAT की key, sem = सेमेस्टर की संख्या, ex = अतिरिक्त सवाल */
+const BOARD={id:"board",en:"Board",label:"Board / बोर्ड",opts:["Bihar Board (BSEB)","CBSE","ICSE","UP Board","Other State Board"]};
+const STREAM={id:"stream",en:"Stream",label:"Stream / स्ट्रीम",opts:["Science","Commerce","Arts"]};
+const TRADE={id:"trade",en:"Trade",label:"ITI Trade / ITI ट्रेड",opts:["Electrician","Fitter","Welder","Mechanic Motor Vehicle","COPA / Computer","Turner / Machinist","Plumber","Other trade"]};
+const BRANCH={id:"branch",en:"Branch",label:"Branch / ब्रांच",opts:["Civil","Mechanical","Electrical","Electronics","Computer Science / IT","Other branch"]};
+const JEB={id:"jeb",en:"JE Branch",label:"Branch / ब्रांच",opts:["Civil","Mechanical","Electrical"]};
+const LEVELS={
+ "School Board":[{n:"Class 10",k:"C10",ex:[BOARD]},{n:"Class 12",k:"C12_",by:"stream",ex:[BOARD,STREAM]}],
+ "ITI":[{n:"ITI",k:"SEM",sem:4,ex:[TRADE]}],
+ "Polytechnic / Diploma":[{n:"Polytechnic / Diploma",k:"SEM",sem:6,ex:[BRANCH]}],
+ "Entrance Exams":[{n:"Polytechnic / Diploma Entrance",k:"ENT"},{n:"ITI Entrance",k:"ENT"}],
+ "Govt Jobs":[{n:"SSC JE",k:"JE",ex:[JEB]},{n:"RRB JE",k:"JE",ex:[JEB]},{n:"ITI Level Jobs (RRB ALP / Group D)",k:"ITIJOB"}],
+ "Special":[{n:"History / GK-GS / Current Affairs",k:"SPL"}]
+};
+/* दूसरी भाषा (English हमेशा साथ में) */
+const LANGS=["Hindi","Bengali","Punjabi","Marathi","Gujarati","Tamil","Telugu","Kannada","Malayalam","Odia","Urdu","Assamese"];
+/* ======================== */
+const STATES=["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar Haveli and Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"];
+
+const $=id=>document.getElementById(id);
+const el=(tag,text)=>{const e=document.createElement(tag);if(text!=null)e.textContent=text;return e};
+const ALL=Object.values(LEVELS).flat();
+let lv=null,picked=new Set(),disc=0,code="",payMode="qr",shotFile=null,shotUrl="",sent=false,lastKey="",lastSig="",orderText="";
+const qs=new URLSearchParams(location.search);
+const ref=(qs.get("ref")||"").replace(/[^A-Za-z0-9]/g,"").slice(0,12);
+const oid="ENT"+Date.now().toString(36).toUpperCase().slice(-6)+Math.floor(Math.random()*90+10);
+
+/* राज्य, क्लास, भाषा */
+(function(){
+  const s=$("state");s.appendChild(new Option("Select your state / अपना राज्य चुनें",""));STATES.forEach(x=>s.appendChild(new Option(x,x)));
+  const l=$("level");for(const g in LEVELS){const og=document.createElement("optgroup");og.label=g;LEVELS[g].forEach(x=>og.appendChild(new Option(x.n,x.n)));l.appendChild(og)}
+  const g=$("lang2");g.appendChild(new Option("Select language / भाषा चुनें",""));g.appendChild(new Option("English only / सिर्फ English","English only"));LANGS.forEach(x=>g.appendChild(new Option("English + "+x,"English + "+x)));
+})();
+
+const exVal=id=>{const s=$("x_"+id);return s?s.value:""};
+const key=()=>lv.k+(lv.by?exVal(lv.by):"");
+const semNo=()=>parseInt(($("sem").value||"").replace(/\D/g,""))||1;
+const pr=n=>Array.isArray(n[1])?n[1][Math.min(semNo(),n[1].length)-1]:n[1];
+function ready(){
+  if(!lv||!$("lang2").value)return false;
+  if(lv.sem&&!$("sem").value)return false;
+  return (lv.ex||[]).every(x=>exVal(x.id));
+}
+
+$("level").onchange=()=>{
+  lv=ALL.find(l=>l.n===$("level").value)||null;
+  const box=$("extra");box.textContent="";
+  if(lv)(lv.ex||[]).forEach(x=>{
+    const lab=el("label",x.label);lab.htmlFor="x_"+x.id;
+    const s=document.createElement("select");s.id="x_"+x.id;
+    s.appendChild(new Option("Select / चुनें",""));x.opts.forEach(o=>s.appendChild(new Option(o,o)));
+    s.onchange=show;box.append(lab,s);
+  });
+  const sem=$("sem");sem.textContent="";
+  $("semBox").classList.toggle("hide",!(lv&&lv.sem));
+  if(lv&&lv.sem){sem.appendChild(new Option("Select semester / सेमेस्टर चुनें",""));for(let i=1;i<=lv.sem;i++)sem.appendChild(new Option("Semester "+i,"Semester "+i))}
+  lastKey="";lastSig="";show();
+};
+$("sem").onchange=show;
+$("lang2").onchange=show;
+$("upiShow").textContent=CONFIG.upi;
+if(/^https:\/\/chat\.whatsapp\.com\//.test(CONFIG.community)){$("commBtn").href=CONFIG.community;$("commBtn").classList.remove("hide")}
+
+function show(){
+  const ok=ready();$("s1").classList.toggle("hide",!ok);
+  if(!ok){picked.clear();lastKey="";lastSig="";upd();return}
+  const k=key(),sg=k+"|"+semNo();
+  if(sg!==lastSig){
+    picked.clear();lastKey=k;lastSig=sg;
+    const box=$("notes");box.textContent="";
+    CAT[k].forEach((n,i)=>{
+      const lab=el("label");lab.className="note"+(i===0&&/^Full|^Semester Notes/.test(n[0])?" full":"");
+      const cb=document.createElement("input");cb.type="checkbox";cb.dataset.i=i;
+      lab.append(cb,el("span",n[0]),el("em","₹"+pr(n)));box.appendChild(lab);
+    });
+  }
+  upd();
+}
+$("notes").onchange=e=>{const i=+e.target.dataset.i;e.target.checked?picked.add(i):picked.delete(i);upd()};
+
+$("apply").onclick=()=>{
+  const c=$("coupon").value.trim().toUpperCase(),r=couponOk(c);
+  if(r>0){disc=r;code=c;$("cmsg").textContent=disc+"% discount applied / "+disc+"% की छूट लग गई";$("cmsg").className="msg ok"}
+  else if(r===-1){disc=0;code="";$("cmsg").textContent="This coupon has expired. / यह कूपन खत्म हो चुका है।";$("cmsg").className="msg bad"}
+  else{disc=0;code="";$("cmsg").textContent=c?"Invalid code. Please check. / कोड सही नहीं है। दोबारा देखें।":"";$("cmsg").className="msg bad"}
+  upd();
+};
+const sub=()=>[...picked].reduce((s,i)=>s+pr(CAT[lastKey][i]),0);
+const total=()=>Math.max(1,Math.round(sub()*(1-disc/100)));
+
+function drawQR(link){
+  const q=$("qr");q.textContent="";
+  try{new QRCode(q,{text:link,width:200,height:200})}catch(e){q.textContent="Pay using UPI ID / UPI ID से पेमेंट करें"}
+}
+function upd(){
+  const on=picked.size>0&&lastKey!=="",t=on?total():0;
+  const tt=$("total");tt.textContent="";
+  if(on&&disc>0){const o=el("s","₹"+sub());o.style.opacity=".6";o.style.marginRight="8px";o.style.fontWeight="600";tt.appendChild(o)}
+  tt.appendChild(document.createTextNode("₹"+t));
+  ["s2","s3","s5"].forEach(id=>$(id).classList.toggle("hide",!on));
+  if(!on)return;
+  const tn=(lv.n+" notes "+oid).replace(/[^A-Za-z0-9 ]/g,"").slice(0,50);
+  const link=`upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent(CONFIG.brand)}&am=${t}.00&cu=INR&tn=${encodeURIComponent(tn)}`;
+  const semT=lv.sem&&$("sem").value?" - "+$("sem").value:"";
+  $("payFor").textContent=lv.n+semT+" ("+picked.size+(picked.size===1?" item / आइटम)":" items / आइटम)");
+  $("payAmt").textContent="₹"+t;
+  const pc=$("payCoupon");
+  if(disc>0){pc.textContent="Coupon "+code+" applied: "+disc+"% off (₹"+sub()+" → ₹"+t+") / कूपन "+code+" लगा: "+disc+"% छूट";pc.className="msg ok"}
+  else{pc.textContent="No coupon applied. If you have a coupon, apply it above before paying. / कोई कूपन नहीं लगा। कूपन हो तो पेमेंट से पहले ऊपर लगाएँ।";pc.className="msg"}
+  $("upiBtn").href=link;
+  drawQR(link);
+}
+const qc=(qs.get("c")||"").toUpperCase();
+if(couponOk(qc)>0){$("coupon").value=qc;$("apply").click()}
+
+/* पेमेंट टैब */
+$("paytabs").onclick=e=>{const b=e.target.closest("button[data-m]");if(!b)return;payMode=b.dataset.m;
+  [...$("paytabs").children].forEach(c=>c.setAttribute("aria-pressed",String(c===b)));
+  $("payQR").classList.toggle("hide",payMode!=="qr");$("payUPI").classList.toggle("hide",payMode!=="upi")};
+$("copyUpi").onclick=async()=>{
+  try{await navigator.clipboard.writeText(CONFIG.upi);$("copyUpi").textContent="Copied"}
+  catch(e){const r=document.createRange();r.selectNodeContents($("upiShow"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("copyUpi").textContent="Select and copy / Select करके कॉपी करें"}
+};
+
+/* स्क्रीनशॉट */
+$("shot").onchange=()=>{
+  const f=$("shot").files[0];shotFile=null;$("shotPrev").classList.add("hide");$("shotMsg").textContent="";
+  if(shotUrl){URL.revokeObjectURL(shotUrl);shotUrl=""}
+  if(!f)return;
+  if(!/^image\/(png|jpe?g|webp|heic|heif)$/i.test(f.type)){$("shotMsg").textContent="Only photos (JPG / PNG) allowed. / सिर्फ फोटो (JPG / PNG) अपलोड करें।";$("shotMsg").className="msg bad";$("shot").value="";return}
+  if(f.size>8*1024*1024){$("shotMsg").textContent="Photo must be under 8 MB. / फोटो 8 MB से छोटी होनी चाहिए।";$("shotMsg").className="msg bad";$("shot").value="";return}
+  shotFile=f;shotUrl=URL.createObjectURL(f);$("shotPrev").src=shotUrl;$("shotPrev").classList.remove("hide");
+  $("shotMsg").textContent="Screenshot selected. / स्क्रीनशॉट चुन लिया गया।";$("shotMsg").className="msg ok";
+};
+
+function say(t,c){$("smsg").textContent=t;$("smsg").className="msg "+c}
+function waLink(){return "https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(orderText)}
+$("send").onclick=()=>{
+  if(sent)return;
+  if($("website").value)return;
+  const name=$("name").value.trim().replace(/[\r\n]+/g," ").slice(0,50),ph=$("phone").value.trim(),utr=$("utr").value.trim();
+  const st=$("state").value;
+  if(!st)return say("Select your state. / अपना राज्य चुनें।","bad");
+  if(!lv)return say("Select your class or exam. / क्लास या परीक्षा चुनें।","bad");
+  if(!ready())return say("Please select all details above (board / stream / branch / semester / language). / ऊपर की सारी जानकारी (बोर्ड / स्ट्रीम / ब्रांच / सेमेस्टर / भाषा) चुनें।","bad");
+  if(!picked.size)return say("Select at least one item. / कम से कम एक नोट्स चुनें।","bad");
+  if(name.length<2)return say("Enter your name. / अपना नाम लिखें।","bad");
+  if(!/^[6-9]\d{9}$/.test(ph))return say("Enter a valid 10-digit WhatsApp number. / सही 10 अंकों का WhatsApp नंबर डालें।","bad");
+  if(!/^\d{12}$/.test(utr))return say("UTR must be 12 digits. You can find it in your payment app. / UTR 12 अंकों का होना चाहिए। यह आपके पेमेंट ऐप में मिलेगा।","bad");
+  if(!shotFile)return say("Upload your payment screenshot. / पेमेंट का स्क्रीनशॉट अपलोड करें।","bad");
+  if(!$("agree").checked)return say("Tick the box to accept the refund policy. / रिफंड नीति से सहमत होने के लिए बॉक्स पर टिक करें।","bad");
+  const items=[...picked].map(i=>CAT[lastKey][i][0]).join(", ");
+  const extras=(lv.ex||[]).map(x=>`${x.en}: ${exVal(x.id)}\n`).join("");
+  const semT=lv.sem?`Semester: ${$("sem").value}\n`:"";
+  orderText=`${CONFIG.brand} ORDER ${oid}\nClass/Exam: ${lv.n}\n${extras}${semT}Language: ${$("lang2").value}\nNotes: ${items}\nName: ${name}\nWhatsApp: ${ph}\nState: ${st}\nPayment: ${payMode.toUpperCase()}\nCoupon: ${code||"-"}\nReferred by: ${ref||"-"}\nAmount: ₹${total()}\nUTR: ${utr}\nRefund policy accepted: Yes\n(Payment screenshot attached below)`;
+  $("sumTxt").textContent=`${lv.n}${lv.sem?" - "+$("sem").value:""} | ${items} | Amount paid / रकम: ₹${total()}`;
+  sent=true;$("send").disabled=true;
+  const w=window.open(waLink(),"_blank","noopener");
+  if(!w)location.href=waLink();
+  ["s0","s1","s2","s3","s5"].forEach(id=>$(id).classList.add("hide"));
+  $("s4").classList.remove("hide");document.querySelectorAll(".waNum").forEach(e=>e.textContent="+91 "+ph);$("oidShow").textContent=oid;
+  window.scrollTo(0,0);
+};
+$("shareShot").onclick=async()=>{
+  try{
+    if(shotFile&&navigator.canShare&&navigator.canShare({files:[shotFile]})){await navigator.share({files:[shotFile],text:orderText});return}
+  }catch(e){if(e&&e.name==="AbortError")return}
+  const w=window.open(waLink(),"_blank","noopener");if(!w)location.href=waLink();
+};
+$("share").onclick=async()=>{
+  const msg=`Get exam notes from ${CONFIG.brand}! Use code ${CONFIG.inviteCode} for a discount.\n${CONFIG.brand} से परीक्षा के नोट्स लें! डिस्काउंट के लिए कोड ${CONFIG.inviteCode} डालें।\n${location.href.split('?')[0]}?c=${CONFIG.inviteCode}&ref=${oid}`;
+  try{if(navigator.share)return await navigator.share({title:CONFIG.brand,text:msg})}catch(e){return}
+  try{await navigator.clipboard.writeText(msg);$("share").textContent="Invite copied! / Invite कॉपी हो गया!"}catch(e){$("share").textContent="Invite: "+msg}
+};
+</script>
+</body>
+</html>
